@@ -1,0 +1,134 @@
+---
+import { domains } from '../site.config';
+
+// Tailwind needs to see full class names statically, so we map each
+// domain's accent to pre-written class strings rather than building
+// them with string interpolation (which Tailwind's scanner can't see).
+const accentText: Record<string, string> = {
+  evergreen: 'text-evergreen-600',
+  copper: 'text-copper-600',
+  plum: 'text-plum-600',
+  steel: 'text-steel-600',
+  rose: 'text-rose-600',
+  slate2: 'text-slate2-600',
+};
+const accentBg: Record<string, string> = {
+  evergreen: 'bg-evergreen-600',
+  copper: 'bg-copper-600',
+  plum: 'bg-plum-600',
+  steel: 'bg-steel-600',
+  rose: 'bg-rose-600',
+  slate2: 'bg-slate2-600',
+};
+const accentBorder: Record<string, string> = {
+  evergreen: 'border-evergreen-600',
+  copper: 'border-copper-600',
+  plum: 'border-plum-600',
+  steel: 'border-steel-600',
+  rose: 'border-rose-600',
+  slate2: 'border-slate2-600',
+};
+---
+
+<div>
+  <div class="flex flex-wrap gap-2 border-b border-mist-300 pb-5" role="tablist" aria-label="HelTru domains">
+    {domains.map((d, i) => (
+      <button
+        class:list={[
+          'dswitch-tab font-mono text-xs px-3.5 py-2 border transition-colors',
+          i === 0 ? [accentBg[d.accent], accentBorder[d.accent], 'text-white'] : ['border-mist-300', 'text-ink-500', 'hover:border-ink-500'],
+        ]}
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        data-key={d.key}
+      >
+        {d.name.replace('HelTru ', '')}
+      </button>
+    ))}
+  </div>
+
+  <div class="mt-8 grid md:grid-cols-[0.85fr_1.15fr] gap-10 items-start">
+    {domains.map((d, i) => (
+      <div class="dswitch-pane" data-key={d.key} style={i === 0 ? '' : 'display:none'}>
+        <h3 class:list={['text-2xl font-display', accentText[d.accent]]}>{d.name}</h3>
+        <p class="mt-2 font-mono text-xs text-ink-500">{d.label.toUpperCase()}</p>
+        <div class="mt-6">
+          <p class="text-xs font-mono text-ink-500 mb-3">WHAT IT WATCHES FOR</p>
+          <ul class="space-y-2.5">
+            {d.watch.map((w) => (
+              <li class="flex gap-3 text-ink-900 text-[0.98rem] border-t border-mist-300 pt-2.5 first:border-t-0 first:pt-0">
+                <span class:list={[accentText[d.accent]]}>•</span>
+                <span>{w}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )).filter((_, i) => i === 0)}
+
+    <div class="dswitch-copy text-ink-500 leading-relaxed space-y-4" data-slot="copy">
+      <p><strong class="text-ink-900">The problem: </strong>{domains[0].pain}</p>
+      <p><strong class="text-ink-900">How HelTru solves it: </strong>{domains[0].solution}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden data island so the client script can swap panes without a page reload -->
+<script type="application/json" id="domains-data" set:html={JSON.stringify(domains)} />
+
+<script>
+  type Domain = {
+    key: string; name: string; label: string; accent: string;
+    watch: string[]; pain: string; solution: string; whyTheyBuy: string;
+  };
+  const data: Domain[] = JSON.parse(document.getElementById('domains-data')?.textContent || '[]');
+  const accentBg: Record<string, string> = {
+    evergreen: 'bg-evergreen-600', copper: 'bg-copper-600', plum: 'bg-plum-600',
+    steel: 'bg-steel-600', rose: 'bg-rose-600', slate2: 'bg-slate2-600',
+  };
+  const accentBorder: Record<string, string> = {
+    evergreen: 'border-evergreen-600', copper: 'border-copper-600', plum: 'border-plum-600',
+    steel: 'border-steel-600', rose: 'border-rose-600', slate2: 'border-slate2-600',
+  };
+  const accentText: Record<string, string> = {
+    evergreen: 'text-evergreen-600', copper: 'text-copper-600', plum: 'text-plum-600',
+    steel: 'text-steel-600', rose: 'text-rose-600', slate2: 'text-slate2-600',
+  };
+
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.dswitch-tab');
+  const nameEl = document.querySelector('.dswitch-pane h3');
+  const labelEl = document.querySelector('.dswitch-pane p');
+  const watchList = document.querySelector('.dswitch-pane ul');
+  const copyEl = document.querySelector('[data-slot="copy"]');
+  const paneRoot = document.querySelector('.dswitch-pane');
+
+  function render(key: string) {
+    const d = data.find((x) => x.key === key);
+    if (!d || !paneRoot || !copyEl) return;
+
+    (nameEl as HTMLElement).textContent = d.name;
+    (nameEl as HTMLElement).className = `text-2xl font-display ${accentText[d.accent]}`;
+    (labelEl as HTMLElement).textContent = d.label.toUpperCase();
+
+    if (watchList) {
+      watchList.innerHTML = d.watch
+        .map((w, i) => `<li class="flex gap-3 text-ink-900 text-[0.98rem] border-t border-mist-300 pt-2.5 ${i === 0 ? 'first:border-t-0 first:pt-0' : ''}"><span class="${accentText[d.accent]}">•</span><span>${w}</span></li>`)
+        .join('');
+    }
+
+    copyEl.innerHTML = `<p><strong class="text-ink-900">The problem: </strong>${d.pain}</p><p><strong class="text-ink-900">How HelTru solves it: </strong>${d.solution}</p>`;
+
+    tabs.forEach((btn) => {
+      const active = btn.dataset.key === key;
+      btn.setAttribute('aria-selected', String(active));
+      const dd = data.find((x) => x.key === btn.dataset.key)!;
+      if (active) {
+        btn.className = `dswitch-tab font-mono text-xs px-3.5 py-2 border transition-colors ${accentBg[dd.accent]} ${accentBorder[dd.accent]} text-white`;
+      } else {
+        btn.className = 'dswitch-tab font-mono text-xs px-3.5 py-2 border transition-colors border-mist-300 text-ink-500 hover:border-ink-500';
+      }
+    });
+  }
+
+  tabs.forEach((btn) => btn.addEventListener('click', () => render(btn.dataset.key!)));
+</script>

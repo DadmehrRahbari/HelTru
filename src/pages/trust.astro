@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const compliance = [
+  { art: 'GDPR, Art. 5, data minimization', body: 'Only anonymous model weight deltas are transmitted. No names, biometrics, or raw sensor readings are stored centrally.' },
+  { art: 'GDPR, Art. 25, privacy by design', body: 'Federated learning enforces privacy at the architecture level. No configuration change can expose raw data, because the raw data was never sent.' },
+  { art: 'GDPR, Art. 32, security of processing', body: 'On-premises deployment, an authenticated API surface end to end, and role-based database access, with no dependency on a non-EU cloud.' },
+  { art: 'EU AI Act, Art. 22, human oversight', body: "Every AI-flagged decision requires a human's review before action is considered complete. Nothing acts autonomously." },
+  { art: 'EU AI Act, Art. 12, record-keeping', body: 'A 10-year immutable audit log records every AI decision, its model version, its inputs, and the human action taken.' },
+];
+
+const ledgerRows = [
+  ['Hardware', 'Any Android phone the person already owns', 'A €100–200 proprietary pendant or device, purchased per person'],
+  ['Data privacy', 'Technically enforced; raw data never leaves the device', 'Contractually promised; raw data reaches a cloud server'],
+  ['EU AI Act readiness', 'Article 22 human oversight and a 10-year audit log, built into the architecture', 'Generally not yet assessed against the 2027 deadline'],
+  ['The AI model', 'Federated; improves from every device without seeing raw data', 'Cloud-trained, which requires raw data to reach the cloud first'],
+  ['Who it\u2019s built for', 'An organization watching over any number of people from one dashboard', 'A single subscriber\u2019s family app, one account per person'],
+  ['Background monitoring', '1-second updates whether the screen is on or off', 'Depends on a separate device being worn continuously'],
+  ['Platform breadth', 'One engine, six safety-critical domains', 'A single-purpose product, one vertical only'],
+  ['Authentication', 'Every device and dashboard connection authenticated by default', 'Varies by vendor, rarely disclosed'],
+];
+---
+
+<BaseLayout title="Trust & compliance" description="How HelTru meets and exceeds GDPR and EU AI Act requirements, by architecture, not just by policy.">
+
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-16">
+      <p class="eyebrow">Trust & compliance</p>
+      <h1 class="mt-4 max-w-2xl text-4xl sm:text-5xl leading-tight">
+        Designed to exceed European requirements, not just clear them.
+      </h1>
+      <p class="mt-6 max-w-2xl text-ink-500 text-lg leading-relaxed">
+        The compliance architecture lives in the shared platform code; every domain HelTru enters inherits it
+        automatically, rather than needing its own compliance build from scratch.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-14">
+      <ul class="space-y-0">
+        {compliance.map((c) => (
+          <li class="border-t border-mist-300 py-5 first:border-t-0 first:pt-0">
+            <span class="font-mono text-xs text-evergreen-600">{c.art}</span>
+            <p class="mt-2 text-ink-700 leading-relaxed">{c.body}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="panel border-l-4 border-fault-500">
+        <p class="font-mono text-xs text-fault-600">If the server is ever compromised</p>
+        <p class="mt-3 text-ink-900 leading-relaxed">
+          An attacker finds federated-learning model weight vectors and salted password hashes, never a raw sensor
+          reading, a location history, or a health record. That's true across every domain the platform serves,
+          because the privacy architecture is shared infrastructure, not a feature bolted onto one product line.
+        </p>
+        <p class="mt-6 font-mono text-xs text-copper-600">Honest status</p>
+        <p class="mt-3 text-ink-700 leading-relaxed">
+          Full multi-tenant data isolation, third-party security audit, and legal review of the data-processing
+          agreement are explicitly in progress, not yet claimed as complete. None of that blocks a pilot with a
+          single organization on a trusted network.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <p class="eyebrow">What makes this different</p>
+      <h2 class="mt-4 text-2xl sm:text-3xl max-w-2xl">Measured against how this category is usually built.</h2>
+      <p class="mt-4 max-w-2xl text-ink-500 leading-relaxed">
+        Not a comparison of brands; a comparison of two architectures.
+      </p>
+      <div class="mt-10 panel !p-0 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="font-mono text-xs text-ink-500">
+              <th class="text-left px-5 py-4">Capability</th>
+              <th class="text-left px-5 py-4">HelTru</th>
+              <th class="text-left px-5 py-4">The typical approach in this category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ledgerRows.map((row) => (
+              <tr class="border-t border-mist-300">
+                <td class="px-5 py-4 font-semibold text-ink-900 w-[22%]">{row[0]}</td>
+                <td class="px-5 py-4 text-evergreen-600">{row[1]}</td>
+                <td class="px-5 py-4 text-ink-500">{row[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

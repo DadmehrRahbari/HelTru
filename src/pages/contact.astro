@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site.config';
+---
+
+<BaseLayout title="Contact" description="Request a pilot, ask a technical question, or start a partnership or investment conversation with HelTru.">
+
+  <section>
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-24 grid md:grid-cols-[1.1fr_0.9fr] gap-16">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl leading-tight max-w-lg">Tell us what you're trying to protect.</h1>
+        <p class="mt-6 max-w-lg text-ink-500 text-lg leading-relaxed">
+          Whether it's a pilot in one facility, a technical architecture review under NDA, or an investment
+          conversation, the form on the right reaches us directly.
+        </p>
+
+        <div class="mt-10 space-y-6">
+          <div class="border-t border-mist-300 pt-5">
+            <p class="font-mono text-xs text-ink-500">EMAIL</p>
+            <a href={`mailto:${site.email}`} class="mt-1 block text-lg text-evergreen-600 font-semibold hover:underline">{site.email}</a>
+          </div>
+          <div class="border-t border-mist-300 pt-5">
+            <p class="font-mono text-xs text-ink-500">LOCATION</p>
+            <p class="mt-1 text-ink-900">{site.location}</p>
+          </div>
+          <div class="border-t border-mist-300 pt-5">
+            <p class="font-mono text-xs text-ink-500">FOR PILOT PARTNERS</p>
+            <p class="mt-1 text-ink-700 leading-relaxed">
+              Mention the domain (eldercare, workplace safety, lone worker, sports, pediatric, or industrial),
+              roughly how many people or devices, and your timeline; that's enough to start a conversation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Send a message</p>
+        <p class="mt-3 text-sm text-ink-500 leading-relaxed">
+          This goes straight to our inbox. We reply to the email address you provide, usually within a couple
+          of business days.
+        </p>
+
+        <div data-fs-success class="hidden mt-4 border border-evergreen-500/40 bg-evergreen-500/10 p-4 font-mono text-xs text-evergreen-600">
+          Thanks, that's on its way. We'll reply by email shortly.
+        </div>
+        <div data-fs-error class="hidden mt-4 border border-fault-500/40 bg-fault-500/10 p-4 font-mono text-xs text-fault-600"></div>
+
+        <form id="contact-form" class="mt-6 space-y-4">
+          <!-- Honeypot: real visitors never fill this in, bots often do -->
+          <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+          <div>
+            <label class="font-mono text-xs text-ink-500" for="name">Name</label>
+            <input id="name" name="name" type="text" required data-fs-field class="mt-1 w-full border border-mist-300 bg-white px-3 py-2.5 text-ink-900 focus:outline-none focus:border-evergreen-500" />
+          </div>
+          <div>
+            <label class="font-mono text-xs text-ink-500" for="email">Email</label>
+            <input id="email" name="email" type="email" required data-fs-field class="mt-1 w-full border border-mist-300 bg-white px-3 py-2.5 text-ink-900 focus:outline-none focus:border-evergreen-500" />
+          </div>
+          <div>
+            <label class="font-mono text-xs text-ink-500" for="organization">Organization</label>
+            <input id="organization" name="organization" type="text" data-fs-field class="mt-1 w-full border border-mist-300 bg-white px-3 py-2.5 text-ink-900 focus:outline-none focus:border-evergreen-500" />
+          </div>
+          <div>
+            <label class="font-mono text-xs text-ink-500" for="message">What are you trying to protect?</label>
+            <textarea id="message" name="message" rows="4" required data-fs-field class="mt-1 w-full border border-mist-300 bg-white px-3 py-2.5 text-ink-900 focus:outline-none focus:border-evergreen-500"></textarea>
+          </div>
+
+          <button type="submit" data-fs-submit-btn class="btn-primary w-full justify-center">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ formId: site.formspreeFormId }}>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: formId });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</BaseLayout>

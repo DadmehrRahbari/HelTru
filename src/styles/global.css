@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ============================================================
+     GLOBAL UI SCALE, one value to change site-wide text and most
+     spacing (all Tailwind text sizes and padding, gap utilities are
+     defined in rem). 100% = 16px base. 112.5% = 18px, noticeably more
+     readable on a content-heavy marketing site. Bumped slightly
+     further on mobile.
+  ---------------------------------------------------------------- */
+  --ui-scale: 112.5%;
+}
+
+@layer base {
+  html {
+    font-size: var(--ui-scale);
+    scroll-behavior: smooth;
+  }
+  @media (max-width: 640px) {
+    html { font-size: calc(var(--ui-scale) * 1.05); }
+  }
+  body {
+    @apply bg-mist-50 text-ink-700 font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink-900;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    @apply bg-evergreen-500/25 text-ink-900;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid theme('colors.evergreen.500');
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* A flush, hairline-rule panel used for tabular/data content (the
+     comparison ledger, the dashboard preview frames). No drop shadow,
+     no rounded corners, no schematic corner-ticks; just a single
+     quiet rule, so it reads as a printed chart rather than a card. */
+  .panel {
+    @apply relative border border-mist-300 bg-white/60 p-6 sm:p-8;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs text-evergreen-600;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-evergreen-600 text-mist-50 font-body font-semibold
+           px-5 py-3 text-sm hover:bg-evergreen-500 transition-colors;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border border-ink-700/30 text-ink-900 font-body font-semibold
+           px-5 py-3 text-sm hover:border-ink-700 transition-colors;
+  }
+
+  .status-chip {
+    @apply inline-flex items-center gap-1.5 font-mono text-xs
+           border px-2 py-1;
+  }
+  .status-chip.ok { @apply border-evergreen-500/40 text-evergreen-600 bg-evergreen-500/5; }
+  .status-chip.warn { @apply border-copper-500/40 text-copper-600 bg-copper-500/5; }
+  .status-chip.fault { @apply border-fault-500/40 text-fault-600 bg-fault-500/5; }
+
+  /* Soft concentric-ripple watermark, the product's own "signal"
+     metaphor, used once per page at most as a background accent. */
+  .ripple-field {
+    background-image: theme('backgroundImage.ripple');
+  }
+
+  /* Deep contrast band, the one place per page allowed to invert to
+     a dark ground, used sparingly like RTAI's console but in the
+     evergreen-ink family rather than navy/amber. */
+  .band-deep {
+    @apply bg-ink-900 text-mist-100;
+  }
+  .band-deep h2, .band-deep h3 { @apply text-mist-50; }
+}

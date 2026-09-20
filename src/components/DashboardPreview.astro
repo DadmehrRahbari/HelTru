@@ -1,0 +1,117 @@
+---
+// No screenshots by design. Real products in this category rarely show
+// literal app screens on the marketing site, and a drawn mockup ages
+// badly the moment the real UI changes. This describes what each
+// person actually sees and can do, which stays accurate longer and
+// reads better next to the rest of the site.
+
+// Tailwind's scanner needs literal class strings in the source, so accent
+// dot colors are mapped here rather than built with template interpolation.
+const dotClass: Record<string, string> = {
+  evergreen: 'bg-evergreen-600',
+  copper: 'bg-copper-600',
+  slate2: 'bg-slate2-600',
+};
+
+const views = [
+  {
+    key: 'user',
+    eyebrow: 'FOR THE MONITORED PERSON & FAMILY',
+    title: 'User view',
+    accent: 'evergreen',
+    items: [
+      { h: 'A plain-language status, not a number', d: "Normal, elevated, or alert; never a raw risk score or sensor reading on someone else's screen." },
+      { h: 'SOS, always on screen', d: "One tap sends an immediate alert to caregivers with the person's ID and last known location, even mid-shift or mid-pause." },
+      { h: 'Session and check-in tracking', d: 'For shift-based and lone-worker roles, a missed check-in is caught automatically instead of depending on someone remembering to look.' },
+      { h: 'An honest pause control', d: 'A short, auto-expiring pause for privacy; SOS still always works, and every pause is logged, so "was monitoring off" is always answerable.' },
+      { h: 'A family portal that reassures, not exposes', d: 'A simple "all good" or "check needed" view, no login required, no raw sensor data ever shown to family.' },
+    ],
+  },
+  {
+    key: 'caregiver',
+    eyebrow: 'FOR THE CAREGIVER OR SAFETY OFFICER',
+    title: 'Caregiver view',
+    accent: 'copper',
+    items: [
+      { h: 'One roster, sorted by risk', d: 'Every person\'s current state at a glance, so anyone drifting toward "alert" surfaces first, not buried in a full list.' },
+      { h: 'A trend, not a snapshot', d: 'Live per-person history, so a week of gradual decline becomes visible before it turns into a crisis.' },
+      { h: 'Automatic alerts for the events that matter', d: 'Fall detected, no check-in received, left safe zone, impact detected, man down; each pushed the moment it happens.' },
+      { h: 'Multi-channel escalation', d: 'Alerts reach a caregiver by email, SMS, or mobile push, not only a dashboard someone has to be actively watching.' },
+      { h: 'A complete incident history', d: 'What happened, when, and what was done about it, timestamped and kept for review.' },
+    ],
+  },
+  {
+    key: 'admin',
+    eyebrow: 'FOR THE FACILITY OR COMPLIANCE ADMIN',
+    title: 'Admin view',
+    accent: 'slate2',
+    items: [
+      { h: 'Human review, built into the workflow', d: "Every AI-flagged decision requires a person to review it before it's considered resolved; nothing acts on its own." },
+      { h: 'A ten-year audit trail', d: 'Every AI decision, its model version, and the human action taken, kept immutable for as long as EU AI Act record-keeping requires.' },
+      { h: 'Role-based accounts', d: 'Admin, caregiver, and viewer roles, so people only see what their role actually needs.' },
+      { h: 'Every facility, one overview', d: 'A single screen across every site or team an organization runs, device inventory and battery status included.' },
+      { h: 'A monthly compliance report, one click', d: 'Instead of assembling one by hand from logs and spreadsheets.' },
+    ],
+  },
+];
+---
+
+<div>
+  <div class="db-tabs flex border-b border-mist-300 mb-8" role="tablist" aria-label="Dashboard views">
+    {views.map((v, i) => (
+      <button
+        class="db-tab flex-1 text-left bg-transparent border-0 border-b-2 -mb-px cursor-pointer px-4 py-3.5"
+        class:list={[i === 0 ? 'border-evergreen-600' : 'border-transparent']}
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        data-panel={v.key}
+      >
+        <span class="block font-mono text-[0.68rem] text-ink-500">{v.eyebrow}</span>
+        <span class:list={['block font-display text-lg mt-1', i === 0 ? 'text-ink-900' : 'text-ink-500']}>{v.title}</span>
+      </button>
+    ))}
+  </div>
+
+  {views.map((v, i) => (
+    <div class="db-panel" data-panel-id={v.key} style={i === 0 ? '' : 'display:none'}>
+      <ul class="grid sm:grid-cols-2 gap-x-10 gap-y-0">
+        {v.items.map((item, idx) => (
+          <li class:list={['border-t border-mist-300 py-5', idx < 2 ? 'sm:border-t-0 sm:pt-0' : '']}>
+            <p class="flex items-start gap-3">
+              <span class:list={['mt-1 inline-block h-1.5 w-1.5 rounded-full flex-shrink-0', dotClass[v.accent]]}></span>
+              <span class="font-display text-lg text-ink-900">{item.h}</span>
+            </p>
+            <p class="mt-2 ml-[18px] text-ink-500 leading-relaxed text-[0.96rem]">{item.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.db-tab');
+  const panels = document.querySelectorAll<HTMLElement>('[data-panel-id]');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.setAttribute('aria-selected', 'false');
+        t.classList.remove('border-evergreen-600');
+        t.classList.add('border-transparent');
+        const label = t.querySelector('span:last-child');
+        label?.classList.remove('text-ink-900');
+        label?.classList.add('text-ink-500');
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.classList.remove('border-transparent');
+      tab.classList.add('border-evergreen-600');
+      const activeLabel = tab.querySelector('span:last-child');
+      activeLabel?.classList.remove('text-ink-500');
+      activeLabel?.classList.add('text-ink-900');
+
+      panels.forEach((p) => {
+        p.style.display = p.dataset.panelId === tab.dataset.panel ? '' : 'none';
+      });
+    });
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DashboardPreview from '../components/DashboardPreview.astro';
+---
+
+<BaseLayout title="Dashboards" description="What the monitored person, the caregiver, and the admin each see and can do in HelTru.">
+
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-16">
+      <p class="eyebrow">What each person actually sees</p>
+      <h1 class="mt-4 max-w-2xl text-4xl sm:text-5xl leading-tight">
+        Three very different screens, one underlying record.
+      </h1>
+      <p class="mt-6 max-w-2xl text-ink-500 text-lg leading-relaxed">
+        The person being monitored, the caregiver watching over them, and the administrator proving compliance
+        never need the same view, so HelTru doesn't give them one.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <DashboardPreview />
+    </div>
+  </section>
+
+</BaseLayout>

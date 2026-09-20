@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site.config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<BaseLayout title="Company" description="HelTru is built in Estonia. GDPR-native, architecturally ready for the EU AI Act.">
+
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-16">
+      <p class="eyebrow">Company</p>
+      <h1 class="mt-4 max-w-2xl text-4xl sm:text-5xl leading-tight">Built in Estonia, for a problem that's the same everywhere.</h1>
+      <p class="mt-6 max-w-2xl text-ink-500 text-lg leading-relaxed">
+        HelTru started from a simple observation: the organizations responsible for watching over people
+        (eldercare facilities, lone-worker employers, youth sports programs) are being asked to do it with fewer
+        staff, not more. Continuous, privacy-preserving monitoring is the lever that doesn't require solving the
+        staffing shortage first.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-b border-mist-300 ripple-field">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <div class="grid md:grid-cols-2 gap-14">
+        <div>
+          <p class="eyebrow">Why Estonia</p>
+          <p class="mt-4 text-ink-700 leading-relaxed">
+            Estonia's digital-government infrastructure and e-residency ecosystem made it a natural base for a
+            company whose entire value proposition rests on architecting privacy correctly from day one, inside
+            the EU's own regulatory environment rather than adapting to it after the fact.
+          </p>
+        </div>
+        <div>
+          <p class="eyebrow">Why now</p>
+          <p class="mt-4 text-ink-700 leading-relaxed">
+            The EU AI Act's phased obligations are arriving on a fixed timeline, and the staffing pressure across
+            eldercare, healthcare, and frontline work is not reversing on its own. An architecture that is
+            privacy-preserving and audit-ready by default, not by retrofit, is a better foundation to build six
+            products on than one that treats compliance as a later milestone.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <div class="max-w-xl">
+        <p class="eyebrow">Get in touch</p>
+        <h2 class="mt-4 text-2xl sm:text-3xl">Pilot partnerships, investment conversations, and technical questions welcome.</h2>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href={`mailto:${site.email}`} class="btn-primary">Email {site.email}</a>
+          <a href={`${base}/contact`} class="btn-secondary">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SignalWaveform from '../components/SignalWaveform.astro';
+import DomainSwitcher from '../components/DomainSwitcher.astro';
+import DashboardPreview from '../components/DashboardPreview.astro';
+import { site } from '../site.config';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const ledgerRows = [
+  ['Hardware', 'Any Android phone the person already owns', 'A €100–200 proprietary pendant, purchased per person'],
+  ['Data privacy', 'Technically enforced; raw data never leaves the device', 'Contractually promised; raw data reaches a cloud server'],
+  ['EU AI Act readiness', 'Article 22 human oversight and a 10-year audit log, built in', 'Generally not yet assessed against the 2027 deadline'],
+  ['Platform breadth', 'One engine, six safety-critical domains', 'A single-purpose product, one vertical only'],
+];
+---
+
+<BaseLayout title={site.name}>
+
+  <!-- ============ HERO ============ -->
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24 sm:pb-28 grid lg:grid-cols-[1.15fr_0.85fr] gap-14 items-center">
+      <div>
+        <p class="eyebrow">Safety monitoring · Federated AI · Built in Estonia</p>
+        <h1 class="mt-5 max-w-[15ch] font-display text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.08]">
+          Watch over someone continuously, without a single byte of their data leaving their pocket.
+        </h1>
+        <p class="mt-6 max-w-[46ch] text-ink-500 text-lg leading-relaxed">
+          HelTru turns a phone someone already owns into a round-the-clock safety monitor: falls, stillness,
+          wandering, fatigue, shock. The model that watches for it trains on-device and only ever sends home an
+          anonymous set of weights.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href={`${base}/contact`} class="btn-primary">Request a pilot</a>
+          <a href={`${base}/platform`} class="btn-secondary">See how it works</a>
+        </div>
+        <p class="mt-10 font-mono text-xs text-ink-500">
+          1s telemetry &nbsp;·&nbsp; 50Hz sampling &nbsp;·&nbsp; 6 domains, one engine &nbsp;·&nbsp; 10yr audit retention
+        </p>
+      </div>
+      <SignalWaveform />
+    </div>
+  </section>
+
+  <!-- ============ CORE INNOVATION (summary) ============ -->
+  <section class="border-b border-mist-300 ripple-field">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div class="max-w-2xl">
+        <p class="eyebrow">The core innovation</p>
+        <h2 class="mt-4 text-2xl sm:text-3xl">
+          GDPR compliance that isn't a promise in a contract; it's a fact about the architecture.
+        </h2>
+        <p class="mt-5 text-ink-500 leading-relaxed">
+          Every other approach to this problem sends raw health or location data to a cloud server and applies
+          privacy law after the fact. HelTru removes the raw data from the equation entirely; the server never
+          receives a sensor reading, only an anonymous statistical summary of what a phone's model has learned.
+        </p>
+        <a href={`${base}/platform`} class="mt-6 inline-block text-evergreen-600 font-semibold hover:underline">
+          Read the full architecture walkthrough →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIX DOMAINS (interactive teaser) ============ -->
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div class="max-w-2xl mb-10">
+        <p class="eyebrow">One engine, six calibrations</p>
+        <h2 class="mt-4 text-2xl sm:text-3xl">The same telemetry pipeline watches for six very different things.</h2>
+        <p class="mt-5 text-ink-500 leading-relaxed">
+          A resident, a lone worker, a child, an athlete, and a piece of machinery all produce a motion signature.
+          What counts as an anomaly differs for each, so HelTru changes the thresholds and the alert vocabulary,
+          not the underlying engine.
+        </p>
+      </div>
+      <DomainSwitcher />
+      <a href={`${base}/domains`} class="mt-10 inline-block text-evergreen-600 font-semibold hover:underline">
+        See the full breakdown for all six domains →
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ DASHBOARDS TEASER ============ -->
+  <section class="border-b border-mist-300 ripple-field">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div class="max-w-2xl mb-10">
+        <p class="eyebrow">What each person actually sees</p>
+        <h2 class="mt-4 text-2xl sm:text-3xl">Three very different screens, one underlying record.</h2>
+        <p class="mt-5 text-ink-500 leading-relaxed">
+          The person being monitored, the caregiver watching over them, and the administrator proving compliance
+          never need the same view, so HelTru doesn't give them one.
+        </p>
+      </div>
+      <DashboardPreview />
+      <a href={`${base}/dashboards`} class="mt-10 inline-block text-evergreen-600 font-semibold hover:underline">
+        Explore every dashboard view →
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ WHY DIFFERENT (ledger excerpt) ============ -->
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div class="max-w-2xl mb-10">
+        <p class="eyebrow">What makes this different</p>
+        <h2 class="mt-4 text-2xl sm:text-3xl">Measured against how this category is usually built.</h2>
+        <p class="mt-5 text-ink-500 leading-relaxed">
+          Not a comparison of brands; a comparison of two architectures. One requires proprietary hardware and
+          treats privacy as a contract; the other doesn't.
+        </p>
+      </div>
+      <div class="panel !p-0 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="font-mono text-xs text-ink-500">
+              <th class="text-left px-5 py-4">Capability</th>
+              <th class="text-left px-5 py-4">HelTru</th>
+              <th class="text-left px-5 py-4">The typical approach in this category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ledgerRows.map((row) => (
+              <tr class="border-t border-mist-300">
+                <td class="px-5 py-4 font-semibold text-ink-900 w-[22%]">{row[0]}</td>
+                <td class="px-5 py-4 text-evergreen-600">{row[1]}</td>
+                <td class="px-5 py-4 text-ink-500">{row[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <a href={`${base}/trust`} class="mt-6 inline-block text-evergreen-600 font-semibold hover:underline">
+        See the full comparison and compliance detail →
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ WHY NOW (deep band) ============ -->
+  <section class="band-deep">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <p class="eyebrow !text-evergreen-400">Why this matters now</p>
+      <h2 class="mt-4 text-2xl sm:text-3xl max-w-2xl">
+        The staffing math doesn't work. Continuous monitoring is the part that doesn't need more headcount.
+      </h2>
+      <div class="mt-12 grid sm:grid-cols-3 gap-px bg-mist-500/20 border border-mist-500/20">
+        <div class="bg-ink-900 p-7">
+          <p class="font-display text-3xl text-evergreen-400">€25B</p>
+          <p class="mt-2 text-sm text-mist-300">Annual cost of falls to European healthcare systems</p>
+        </div>
+        <div class="bg-ink-900 p-7">
+          <p class="font-display text-3xl text-evergreen-400">63%</p>
+          <p class="mt-2 text-sm text-mist-300">Of assisted living facilities report a staff shortage</p>
+        </div>
+        <div class="bg-ink-900 p-7">
+          <p class="font-display text-3xl text-evergreen-400">1 in 3</p>
+          <p class="mt-2 text-sm text-mist-300">Europeans will be 60 or older by 2050</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section>
+    <div class="mx-auto max-w-6xl px-6 py-24">
+      <div class="max-w-xl">
+        <p class="eyebrow">Partnership & investment</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl">
+          Ready for a pilot in eldercare, workplace safety, or anywhere continuous monitoring replaces a scheduled check.
+        </h2>
+        <p class="mt-5 text-ink-500 leading-relaxed">
+          A live demonstration, a technical architecture walkthrough under NDA, or a clinical validation study design,
+          available on request, across any of the six domains.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href={`mailto:${site.email}`} class="btn-primary">Email {site.email}</a>
+          <a href={`${base}/domains`} class="btn-secondary">Explore the six domains</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

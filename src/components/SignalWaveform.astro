@@ -1,0 +1,66 @@
+---
+// A live-drawn accelerometer-style trace with a periodic fall spike.
+// Deliberately the one animated moment on the homepage; everything
+// else is static or hover/click-driven. Labels are written in plain
+// language on purpose, not raw telemetry jargon like a real device ID.
+---
+
+<div class="panel">
+  <div class="flex items-center justify-between font-mono text-xs text-ink-500 pb-3 mb-4 border-b border-mist-300">
+    <span>What HelTru sees</span>
+    <span class="status-chip ok"><span class="inline-block h-1.5 w-1.5 rounded-full bg-evergreen-500"></span>processed on device</span>
+  </div>
+  <canvas id="wave" width="900" height="360" class="w-full h-[190px] block" aria-hidden="true"></canvas>
+  <div class="flex items-center justify-between mt-4 pt-3 border-t border-mist-300 font-mono text-xs text-ink-500">
+    <span>no raw data leaves this phone</span>
+    <span id="wave-flag" class="text-evergreen-600">all clear</span>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('wave') as HTMLCanvasElement | null;
+  const flagEl = document.getElementById('wave-flag');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canvas && canvas.getContext && !reduceMotion) {
+    const ctx = canvas.getContext('2d')!;
+    const W = canvas.width, H = canvas.height;
+    let t = 0;
+    const spikeAt = 260, spikeLen = 22, cycle = 620;
+
+    function draw() {
+      t = (t + 1) % cycle;
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 2.6;
+      ctx.strokeStyle = '#1F6F52'; // evergreen-600
+      ctx.beginPath();
+      const mid = H / 2;
+      for (let x = 0; x < W; x++) {
+        const phase = (x + t) % cycle;
+        const base = Math.sin(x * 0.045) * 10 + Math.sin(x * 0.011) * 6;
+        let y = mid + base;
+        if (phase > spikeAt && phase < spikeAt + spikeLen) {
+          const k = (phase - spikeAt) / spikeLen;
+          y += Math.sin(k * Math.PI) * -130;
+        }
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      const flagPhase = t % cycle;
+      if (flagEl) {
+        if (flagPhase > spikeAt - 4 && flagPhase < spikeAt + 70) {
+          flagEl.textContent = 'fall detected, response in 1 second';
+          flagEl.className = 'text-fault-600';
+        } else {
+          flagEl.textContent = 'all clear';
+          flagEl.className = 'text-evergreen-600';
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  } else if (flagEl) {
+    flagEl.textContent = 'all clear';
+  }
+</script>

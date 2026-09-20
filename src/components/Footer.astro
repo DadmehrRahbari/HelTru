@@ -1,0 +1,39 @@
+---
+import { site, footerLinks, currentYear } from '../site.config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<footer class="border-t border-mist-300 mt-32">
+  <div class="mx-auto max-w-6xl px-6 py-14 grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <div class="flex items-center gap-2 font-display text-lg font-semibold text-ink-900">
+        <span class="inline-block h-2 w-2 rounded-full bg-evergreen-600"></span>
+        {site.name}
+      </div>
+      <p class="mt-4 max-w-sm text-sm text-ink-500">{site.tagline}</p>
+      <p class="mt-6 font-mono text-xs text-ink-500">{site.location}</p>
+    </div>
+
+    <div>
+      <p class="eyebrow mb-4">Sitemap</p>
+      <ul class="space-y-2 text-sm text-ink-700">
+        {footerLinks.map((l) => <li><a href={`${base}${l.href}`} class="hover:text-evergreen-600">{l.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <p class="eyebrow mb-4">Connect</p>
+      <ul class="space-y-2 text-sm text-ink-700">
+        <li><a href={site.social.linkedin} class="hover:text-evergreen-600">LinkedIn</a></li>
+        <li><a href={site.social.github} class="hover:text-evergreen-600">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-xs text-ink-500">
+      <p>© {currentYear} {site.legalName}. All rights reserved.</p>
+      <p>Built in Estonia. GDPR-native by architecture.</p>
+    </div>
+  </div>
+</footer>

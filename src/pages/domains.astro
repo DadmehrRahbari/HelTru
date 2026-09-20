@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { domains } from '../site.config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const accentText: Record<string, string> = {
+  evergreen: 'text-evergreen-600', copper: 'text-copper-600', plum: 'text-plum-600',
+  steel: 'text-steel-600', rose: 'text-rose-600', slate2: 'text-slate2-600',
+};
+const accentBorder: Record<string, string> = {
+  evergreen: 'border-evergreen-600', copper: 'border-copper-600', plum: 'border-plum-600',
+  steel: 'border-steel-600', rose: 'border-rose-600', slate2: 'border-slate2-600',
+};
+---
+
+<BaseLayout title="Domains" description="HelTru's six safety-critical domains: eldercare, workplace safety, lone-worker protection, sports performance, pediatric safety, and industrial asset monitoring.">
+
+  <section class="border-b border-mist-300">
+    <div class="mx-auto max-w-6xl px-6 pt-16 pb-16">
+      <p class="eyebrow">Six domains, one engine</p>
+      <h1 class="mt-4 max-w-2xl text-4xl sm:text-5xl leading-tight">
+        Different bodies, different thresholds, the same telemetry pipeline underneath.
+      </h1>
+      <p class="mt-6 max-w-2xl text-ink-500 text-lg leading-relaxed">
+        A resident, a lone worker, a child, an athlete, and a piece of machinery all produce a motion signature.
+        HelTru recalibrates what counts as an anomaly for each; the detection engine, the audit log, and the
+        compliance architecture are shared infrastructure underneath all six.
+      </p>
+    </div>
+  </section>
+
+  {domains.map((d, i) => (
+    <section class:list={['border-b border-mist-300', i % 2 === 1 ? 'ripple-field' : '']}>
+      <div class="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-[0.8fr_1.2fr] gap-12">
+        <div>
+          <span class:list={['font-mono text-xs', accentText[d.accent]]}>{String(i + 1).padStart(2, '0')} / 06</span>
+          <h2 class:list={['mt-3 font-display text-2xl sm:text-3xl', accentText[d.accent]]}>{d.name}</h2>
+          <p class="mt-2 font-mono text-xs text-ink-500">{d.label.toUpperCase()}</p>
+
+          <div class="mt-6">
+            <p class="text-xs font-mono text-ink-500 mb-3">WHAT IT WATCHES FOR</p>
+            <ul class="space-y-2.5">
+              {d.watch.map((w) => (
+                <li class:list={['border-t pt-2.5 first:border-t-0 first:pt-0 text-ink-900 text-[0.98rem] flex gap-3', 'border-mist-300']}>
+                  <span class={accentText[d.accent]}>•</span><span>{w}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div>
+            <p class="font-mono text-xs text-ink-500 mb-2">THE PROBLEM</p>
+            <p class="text-ink-700 leading-relaxed">{d.pain}</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-ink-500 mb-2">HOW HelTru SOLVES IT</p>
+            <p class="text-ink-700 leading-relaxed">{d.solution}</p>
+          </div>
+          <div class:list={['panel border-l-4', accentBorder[d.accent]]}>
+            <p class="font-mono text-xs text-ink-500 mb-2">WHY ORGANIZATIONS BUY IT</p>
+            <p class="text-ink-900 leading-relaxed">{d.whyTheyBuy}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <div class="max-w-xl">
+        <h2 class="text-2xl sm:text-3xl">Don't see your domain?</h2>
+        <p class="mt-4 text-ink-500 leading-relaxed">
+          The underlying engine is domain-agnostic by design. If continuous, privacy-preserving motion monitoring
+          solves a problem you have, it's worth a conversation.
+        </p>
+        <a href={`${base}/contact`} class="btn-primary mt-6 inline-flex">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
