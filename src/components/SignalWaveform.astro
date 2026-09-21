@@ -18,17 +18,20 @@
 </div>
 
 <script>
-  const canvas = document.getElementById('wave') as HTMLCanvasElement | null;
-  const flagEl = document.getElementById('wave-flag');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function initWaveform() {
+    const canvas = document.getElementById('wave') as HTMLCanvasElement | null;
+    const flagEl = document.getElementById('wave-flag');
+    if (!canvas || !canvas.getContext) return;
 
-  if (canvas && canvas.getContext && !reduceMotion) {
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     const W = canvas.width, H = canvas.height;
     let t = 0;
     const spikeAt = 260, spikeLen = 22, cycle = 620;
 
     function draw() {
+      if (!ctx) return;
       t = (t + 1) % cycle;
       ctx.clearRect(0, 0, W, H);
       ctx.lineWidth = 2.6;
@@ -59,8 +62,13 @@
       }
       requestAnimationFrame(draw);
     }
+
     draw();
-  } else if (flagEl) {
-    flagEl.textContent = 'all clear';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWaveform);
+  } else {
+    initWaveform();
   }
 </script>

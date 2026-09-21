@@ -8,12 +8,12 @@ const architecture = [
     n: '01',
     title: 'The monitored device',
     body: "Any Android phone from 2018 onward. Accelerometer and gyroscope stream at 50Hz through a foreground service that keeps working with the screen off, after the app is killed, and after a reboot.",
-    specs: ['HTTP POST every 1 second, key-authenticated', 'FL weights computed locally on-device', 'Survives app kill and reboot'],
+    specs: ['HTTP POST every 1 second, key-authenticated', 'Unifying Contextual Weights computed locally', 'Survives app kill and reboot'],
   },
   {
     n: '02',
     title: 'The HelTru server',
-    body: "Receives a telemetry post, checks the key, computes a risk score against a personal baseline, and broadcasts the result, never touching a raw reading it wasn't already given the right to see.",
+    body: "Receives a telemetry post, checks the key, aggregates Unifying Contextual Weights against a personal baseline, and computes a risk score without raw sensor readings ever leaving the device.",
     specs: ['Weighted FedAvg + secure aggregation', 'EWMA baseline + fatigue signal', '10-year AI Act audit log'],
   },
   {
@@ -25,7 +25,7 @@ const architecture = [
 ];
 ---
 
-<BaseLayout title="Platform" description="How HelTru works: federated learning, on-device detection, and the three-part architecture behind six safety-critical domains.">
+<BaseLayout title="Platform" description="How HelTru works: Unifying Contextual Weights, federated learning, on-device detection, and the three-part architecture behind six safety-critical domains.">
 
   <section class="border-b border-mist-300">
     <div class="mx-auto max-w-6xl px-6 pt-16 pb-16 sm:pt-20 sm:pb-20">
@@ -34,8 +34,8 @@ const architecture = [
         Privacy isn't a policy here. It's a consequence of how the system is built.
       </h1>
       <p class="mt-6 max-w-2xl text-ink-500 text-lg leading-relaxed">
-        HelTru is a federated-learning platform: every device trains its own local model on its own motion
-        data, and only ever sends home a small, anonymous set of statistical weights. No raw sensor reading,
+        HelTru is a federated-learning platform: every device computes its own Unifying Contextual Weights on its own motion
+        data, and only ever sends home a small, anonymous set of statistical updates. No raw sensor reading,
         location, or health record is ever transmitted or stored centrally.
       </p>
     </div>
@@ -68,7 +68,7 @@ const architecture = [
           <div class="mt-5 font-mono text-sm text-evergreen-600 leading-loose">
             <span class="border border-evergreen-500/40 px-2.5 py-1 inline-block">phone</span>
             <span class="text-ink-500/50 mx-1.5">→</span>
-            <span class="border border-evergreen-500/40 px-2.5 py-1 inline-block">local weights only</span>
+            <span class="border border-evergreen-500/40 px-2.5 py-1 inline-block">Unifying Contextual Weights</span>
             <span class="text-ink-500/50 mx-1.5">→</span>
             <span class="border border-evergreen-500/40 px-2.5 py-1 inline-block">EU server</span>
             <span class="text-ink-500/50 mx-1.5">→</span>
@@ -76,7 +76,7 @@ const architecture = [
           </div>
           <ul class="mt-6 space-y-3 text-ink-700 text-[0.95rem]">
             <li>• Each phone trains on its own motion data locally, in place</li>
-            <li>• Only nine anonymous statistical values leave the device, every 64 samples</li>
+            <li>• Unifying Contextual Weights evaluate motion telemetry on-device without sharing raw data</li>
             <li>• A compromised server yields model weights and hashed credentials, never a sensor reading</li>
             <li>• Self-hosted on-premises or in an EU data center, no transatlantic transfer to reason about</li>
           </ul>
